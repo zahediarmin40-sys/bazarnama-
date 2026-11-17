@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: bazarnama
+    runtime: node
+    plan: free
+    buildCommand: unzip -q -o bazarnama-next.zip -d . && cd bazarnama-next && npm install --no-audit --no-fund && npm run build
+    startCommand: cd bazarnama-next && npm run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: NODE_ENV
+        value: production
+      - key: PRICE_MODE
+        value: live
+      - key: PROVIDERS_ENABLED
+        value: nerkhara
+      - key: DEFAULT_INTERVAL_SEC
+        value: "600"
+      - key: DATA_DIR
+        value: /tmp/bazarnama-data
+      - key: ADMIN_JWT_SECRET
+        generateValue: true
+      - key: ADMIN_OWNER_EMAIL
+        sync: false
+      - key: ADMIN_USERS
+        sync: false
